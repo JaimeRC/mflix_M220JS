@@ -263,7 +263,7 @@ export default class MoviesDAO {
 
     // TODO Ticket: Paging                     -----------------------------------------------> OK
     // Use the cursor to only return the movies that belong on the current page
-    const displayCursor = cursor.limit(moviesPerPage).skip(page > 0 ? ((page - 1) * moviesPerPage) : 0)
+    const displayCursor = cursor.skip(page > 0 ? (moviesPerPage * page) : 0).limit(moviesPerPage)
 
     try {
       const moviesList = await displayCursor.toArray()
@@ -306,8 +306,21 @@ export default class MoviesDAO {
         {
           $lookup: {
             from: 'comments',
-            localField: '_id',
-            foreignField: 'movie_id',
+            let: { 'id': '$_id' },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ['$movie_id', '$$id']
+                  }
+                }
+              },
+              {
+                $sort: {
+                  date: -1
+                }
+              }
+            ],
             as: 'comments'
           }
         }
