@@ -1,3 +1,4 @@
+require("dotenv").config()
 const MongoClient = require("mongodb").MongoClient
 const ObjectId = require("mongodb").ObjectId
 const MongoError = require("mongodb").MongoError
@@ -17,7 +18,7 @@ const MongoError = require("mongodb").MongoError
   ; (async () => {
     try {
       // ensure you update your host information below!
-      const host = "mongodb+srv://m220student:m220password@cluster0-hipml.mongodb.net"//                     -----------------------------------------------> OK
+      const host = process.env.MFLIX_DB_URI//                     -----------------------------------------------> OK
       const client = await MongoClient.connect(
         host,
         { useNewUrlParser: true },
