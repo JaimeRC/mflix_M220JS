@@ -32,7 +32,7 @@ export default class MoviesDAO {
     let response = {
       poolSize,
       wtimeout,
-      authInfo,
+      authInfo
     }
     return response
   }
