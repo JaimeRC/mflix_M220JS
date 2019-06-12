@@ -89,3 +89,5 @@ typings/
 #Project
 data/
 build/
+
+package-lock.json
